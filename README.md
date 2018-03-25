@@ -32,7 +32,7 @@ source ./venv/bin/activate
 pip install sounddevice, soundfile, pyxhook, numpy
 ```
 
-Then simply `python3 CLI.py` should work.
+Then simply `python3 CLI.py` should work. You may need portaudio library installed.
 
 ### System-Wide Python
 

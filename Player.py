@@ -19,8 +19,9 @@ class Player:
             sound_no = self.key_audio_map[key]
         else:
             sound_no = randrange(0, self.non_unique_count)
-        data, sf = self.wav_data[sound_no]
-        play(data, sf)
+        if self.caching == False :
+            data, sf = self.wav_data[sound_no]
+            play(data, sf)
 
     # Set Options
     def set_theme(self, theme):
@@ -40,6 +41,7 @@ class Player:
 
     # Read Sound, enable volume and Pitch, Cache in RAM
     def cache_sound_effect(self):
+        self.caching = True
         # Load Sound Themes
         with open(scheme_path) as f:
             json_obj = load(f)
@@ -53,6 +55,7 @@ class Player:
             sound_file_path = './Resources/data/%s/%s' % (self.config['theme'], filename)
             wave, sample_rate = read(sound_file_path)
             self.wav_data.append((wave * self.config['volume'], sample_rate * self.config['pitch']))
+        self.caching = False
 
     def load_config(self):
         if os.path.isfile(config_path):
@@ -78,4 +81,6 @@ class Player:
         self.non_unique_count = 0  # Normal Sound Count
         self.config = {}
         self.load_config()
+        self.caching = False
         self.cache_sound_effect()
+
